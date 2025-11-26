@@ -8,12 +8,12 @@ steps:
         # - Der Build-Context ist im './flask-app' Verzeichnis
         # 
         # Ihre Lösung hier:
-        name: 'gcr.io/cloud-builders/docker'
-        args:
-          - build
-          - 't'
-          - 'us-central1-docker.pkg.dev/$PROJECT_ID/transcoder-repo/flask-app:$COMMIT_SHA'
-          - ./flask-app
+    name: 'gcr.io/cloud-builders/docker'
+    args:
+      - build
+      - '-t'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/transcoder-repo/flask-app:$COMMIT_SHA'
+      - './flask-app'
   # 2. Docker-Image in Google Container Registry pushen
   - id: "Docker Push"
         # TODO: Fügen Sie die notwendigen Argumente für den Docker-Push hinzu
@@ -22,10 +22,10 @@ steps:
         # - Pushen Sie das gleiche Image-Tag wie in Schritt 1
         #
         # Ihre Lösung hier:
-        name: 'gcr.io/cloud-builders/docker'
-        args:
-          - push
-          - 'us-central1-docker.pkg.dev/$PROJECT_ID/transcoder-repo/flask-app:$COMMIT_SHA'
+    name: 'gcr.io/cloud-builders/docker'
+    args:
+      - push
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/transcoder-repo/flask-app:$COMMIT_SHA'
   # 3. Deployment auf Cloud Run
   - id: "Cloud Run Deployment"
         # TODO: Fügen Sie die notwendigen Argumente für das Cloud Run Deployment hinzu
@@ -39,14 +39,14 @@ steps:
         # - Umgebungsvariablen setzen: BUCKET_NAME, PROJECT_ID, REGION
         #
         # Ihre Lösung hier:
-        name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-        entryppoint: 'bash'
-        args:
-          - -c
-          - |
-          SERVICE_NAME="flask-app-test"
-                  if [ "$BRANCH_NAME" = "main" ] || [ "$BRANCH_NAME" = "master" ]; then
-          SERVICE_NAME="flask-app"
+    name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    entryppoint: 'bash'
+    args:
+      - -c
+      - |
+        SERVICE_NAME="flask-app-test"
+                if [ "$BRANCH_NAME" = "main" ] || [ "$BRANCH_NAME" = "master" ]; then
+        SERVICE_NAME="flask-app"
         fi
         gcloud run deploy $$SERVICE_NAME \
           --image=us-central1-docker.pkg.dev/$PROJECT_ID/transcoder-repo/flask-app:$COMMIT_SHA \
