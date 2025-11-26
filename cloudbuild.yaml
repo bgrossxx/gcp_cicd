@@ -12,7 +12,7 @@ steps:
     args:
       - build
       - '-t'
-      - 'us-central1-docker.pkg.dev/$PROJECT_ID/gcp/flask-app:$COMMIT_SHA'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/pmmn-artreg25/flask-app:$COMMIT_SHA'
       - './flask-app'
   # 2. Docker-Image in Google Container Registry pushen
   - id: "Docker Push"
@@ -25,7 +25,7 @@ steps:
     name: 'gcr.io/cloud-builders/docker'
     args:
       - push
-      - 'us-central1-docker.pkg.dev/$PROJECT_ID/gcp/flask-app:$COMMIT_SHA'
+      - 'us-central1-docker.pkg.dev/$PROJECT_ID/pmmn-artreg25/flask-app:$COMMIT_SHA'
   # 3. Deployment auf Cloud Run
   - id: "Cloud Run Deployment"
         # TODO: Fügen Sie die notwendigen Argumente für das Cloud Run Deployment hinzu
@@ -49,7 +49,7 @@ steps:
         SERVICE_NAME="flask-app"
         fi
         gcloud run deploy $$SERVICE_NAME \
-          --image=us-central1-docker.pkg.dev/$PROJECT_ID/gcp/flask-app:$COMMIT_SHA \
+          --image=us-central1-docker.pkg.dev/$PROJECT_ID/pmmn-artreg25/flask-app:$COMMIT_SHA \
           --region=$_REGION \
           --platform=managed \
           --allow-unauthenticated \
