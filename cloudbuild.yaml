@@ -40,7 +40,7 @@ steps:
         #
         # Ihre Lösung hier:
     name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
-    entryppoint: 'bash'
+    entrypoint: 'bash'
     args:
       - -c
       - |
